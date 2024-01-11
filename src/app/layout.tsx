@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import Providers from '@/app/providers';
+import Header from '@/components/header';
 
 import './globals.css';
 
@@ -21,7 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {children}
+          <Header />
+          <div className="container mx-auto px-6 max-w-[1024px]">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
