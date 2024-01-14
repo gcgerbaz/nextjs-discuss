@@ -14,38 +14,45 @@ import {
 import * as actions from '@/actions';
 import FormButton from '@/components/common/formButton';
 
-export default function TopicCreateForm() {
-  const [formState, action] = useFormState(actions.createTopic, {
-    errors: {},
-  });
+interface PostCreateFormProps {
+  topicSlug: string,
+};
+
+export default function PostCreateForm({ topicSlug }: PostCreateFormProps) {
+  const [formState, action] = useFormState(
+    actions.createPost.bind(null, topicSlug),
+    {
+      errors: {},
+    },
+  );
 
   return (
     <Popover placement="left">
       <PopoverTrigger>
         <Button color="primary">
-          Add topic
+          Add post
         </Button>
       </PopoverTrigger>
       <PopoverContent>
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-80">
-            <h3 className="text-lg">Create a new topic</h3>
+            <h3 className="text-lg">Create a new post</h3>
             <Input
-              name="name"
-              label="Name"
+              name="title"
+              label="Title"
               labelPlacement="inside"
-              placeholder="Insert new topic name"
-              isInvalid={!!formState.errors.name}
-              errorMessage={!!formState.errors.name ? <><ul className="list-disc px-5">{formState.errors.name.map(err => <li key={err}>{err}</li>)}</ul></> : null}
+              placeholder="Insert new post title"
+              isInvalid={!!formState.errors.title}
+              errorMessage={!!formState.errors.title ? <><ul className="list-disc px-5">{formState.errors.title.map(err => <li key={err}>{err}</li>)}</ul></> : null}
               isClearable
             />
             <Textarea
-              name="description"
+              name="content"
               label="Description"
               labelPlacement="inside"
-              placeholder="Describe your topic"
-              isInvalid={!!formState.errors.description}
-              errorMessage={!!formState.errors.description ? <><ul className="list-disc px-5">{formState.errors.description.map(err => <li key={err}>{err}</li>)}</ul></> : null}
+              placeholder="Add content to new post"
+              isInvalid={!!formState.errors.content}
+              errorMessage={!!formState.errors.content ? <><ul className="list-disc px-5">{formState.errors.content.map(err => <li key={err}>{err}</li>)}</ul></> : null}
             />
             {formState.errors._form ? (
               <div className="p-2 bg-red-100 border border-red-400 rounded text-red-600">
@@ -55,7 +62,7 @@ export default function TopicCreateForm() {
             <FormButton buttonConf={{
               color: 'primary',
             }}>
-              Create topic
+              Create post
             </FormButton>
           </div>
         </form>
